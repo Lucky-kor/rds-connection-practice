@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: spring-app
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE}
+      # --- RDS 접속 정보 ---
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
+      DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      # --- AWS (필요 시) ---
+      AWS_CREDENTIALS_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
+      AWS_CREDENTIALS_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      AWS_S3_BUCKET: ${S3_BUCKET_NAME}
+    ports:
+      - "8080:8080"
+    # RDS는 외부 서비스이므로 depends_on 불필요
+    networks:
+      - backend
+
+networks:
+  backend:
